@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.11
-FROM python:$PYTHON_VERSION
+FROM python:$PYTHON_VERSION-slim-bookworm
 USER root
 # Configure environment
 # superset/gunicorn recommended defaults:
@@ -62,8 +62,6 @@ apt-get install redis -y
 #installing posgresql
 RUN apt-get install postgresql -y && \
     pip install psycopg2
-#start postgresql
-RUN service postgresql start
 # Install pips
 COPY requirements*.txt ./
 RUN pip install -r requirements.txt && \
