@@ -1,6 +1,5 @@
 ARG PYTHON_VERSION=3.11
 FROM python:$PYTHON_VERSION
-
 # Configure environment
 # superset/gunicorn recommended defaults:
 # - https://superset.apache.org/docs/installation/configuring-superset#running-on-a-wsgi-http-server
@@ -20,13 +19,10 @@ ENV SUPERSET_HOME=/var/lib/superset
 ENV GUNICORN_CMD_ARGS="--bind $GUNICORN_BIND --limit-request-field_size $GUNICORN_LIMIT_REQUEST_FIELD_SIZE --limit-request-line $GUNICORN_LIMIT_REQUEST_LINE --threads $GUNICORN_THREADS --timeout $GUNICORN_TIMEOUT --workers $GUNICORN_WORKERS --worker-class $GUNICORN_WORKER_CLASS"
 
 # Configure filesystem
-
 COPY bin /usr/local/bin
 VOLUME /etc/superset
 VOLUME /home/superset
 VOLUME /var/lib/superset
-
-
 # Create superset user & install dependencies
 WORKDIR /home/superset
 RUN groupadd supergroup && \
@@ -54,15 +50,13 @@ RUN groupadd supergroup && \
     libssl-dev && \
     apt-get clean && \
     pip install -U pip
-
 #installing redis server
 RUN apt-get install lsb-release curl gpg  && \
 curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg \
 chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg  && \
 echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" |  tee /etc/apt/sources.list.d/redis.list && \
 apt-get update  && \
-apt-get install redis 
-
+apt-get install redis
 #installing posgresql
 RUN apt-get install postgresql && \
     pip install psycopg2
@@ -70,7 +64,6 @@ RUN apt-get install postgresql && \
 COPY requirements*.txt ./
 RUN pip install -r requirements.txt && \
     pip install -r requirements-dev.txt
-
 COPY superset_config.py /etc/superset/
 COPY superset-logo-horiz.png /usr/local/lib/python3.11/site-packages/superset/static/assets/images/superset-logo-horiz.png
 COPY favicon.png  /usr/local/lib/python3.11/site-packages/superset/static/assets/images/favicon.png
