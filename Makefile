@@ -1,5 +1,5 @@
 ARCH             := linux/arm64
-REPO             := amancevice/superset
+REPO             := vioneta/vinsight
 PYTHON_VERSION   := $(shell cat .python-version)
 SUPERSET_VERSION := $(shell grep apache-superset Pipfile | grep -Eo '[0-9.]+')
 
