@@ -2,7 +2,7 @@
 set -eo pipefail
 
 # Create an admin user
-flask fab create-admin $@
+ flask fab create-admin --username admin  --firstname vinsight  --lastname Admin  --email admin@vioneta.com  --password admin
 
 # Initialize the database
 superset db upgrade

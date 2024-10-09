@@ -9,10 +9,10 @@ CACHE_CONFIG = {
     "CACHE_TYPE": "RedisCache",
     "CACHE_DEFAULT_TIMEOUT": 300,
     "CACHE_KEY_PREFIX": "vinsight_",
-    "CACHE_REDIS_HOST": "redis",
+    "CACHE_REDIS_HOST": "127.0.0.1",
     "CACHE_REDIS_PORT": 6379,
     "CACHE_REDIS_DB": 1,
-    "CACHE_REDIS_URL": "redis://redis:6379/1",
+    "CACHE_REDIS_URL": "redis://127.0.0.1:6379/1",
 }
 FILTER_STATE_CACHE_CONFIG = {**CACHE_CONFIG, "CACHE_KEY_PREFIX": "vinsight_filter_"}
 EXPLORE_FORM_DATA_CACHE_CONFIG = {
@@ -20,7 +20,7 @@ EXPLORE_FORM_DATA_CACHE_CONFIG = {
     "CACHE_KEY_PREFIX": "vinsight_explore_form_",
 }
 SECRET_KEY = "fQUWpWhUVj6HPeSzXNeETPL4IabOk3lZgRdsrj7BG8ndT5ao+4bP5fQ3"
-SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://vinsight:vinsight@pgdb:5432/vinsight"
+SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres@127.0.0.1:5432/vinsight"
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 # Flask-WTF flag for CSRF
 WTF_CSRF_ENABLED = False
