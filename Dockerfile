@@ -57,9 +57,9 @@ RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyri
 RUN chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" |  tee /etc/apt/sources.list.d/redis.list
 RUN apt-get update  && \
-apt-get install redis
+apt-get install redis -y
 #installing posgresql
-RUN apt-get install postgresql && \
+RUN apt-get install postgresql -y && \
     pip install psycopg2
 # Install pips
 COPY requirements*.txt ./
