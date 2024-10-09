@@ -1,0 +1,11 @@
+#!/bin/bash
+set -eo pipefail
+
+# Create an admin user
+flask fab create-admin $@
+
+# Initialize the database
+superset db upgrade
+
+# Create default roles and permissions
+superset init
