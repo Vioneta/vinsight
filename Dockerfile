@@ -1,5 +1,6 @@
 ARG PYTHON_VERSION=3.11
 FROM python:$PYTHON_VERSION
+USER root
 # Configure environment
 # superset/gunicorn recommended defaults:
 # - https://superset.apache.org/docs/installation/configuring-superset#running-on-a-wsgi-http-server
@@ -61,6 +62,9 @@ apt-get install redis -y
 #installing posgresql
 RUN apt-get install postgresql -y && \
     pip install psycopg2
+#start postgresql
+RUN service posgresql enable
+RUN Service posgresql start
 # Install pips
 COPY requirements*.txt ./
 RUN pip install -r requirements.txt && \
@@ -71,6 +75,5 @@ COPY favicon.png  /usr/local/lib/python3.11/site-packages/superset/static/assets
 ENV SUPERSET_CONFIG_PATH  /etc/superset/superset_config.py
 # Configure application
 EXPOSE 8088
-USER superset
 HEALTHCHECK CMD ["curl", "-f", "http://localhost:8088/health"]
 CMD ["gunicorn", "superset.app:create_app()"]
