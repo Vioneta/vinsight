@@ -63,8 +63,8 @@ apt-get install redis -y
 RUN apt-get install postgresql -y && \
     pip install psycopg2
 #start postgresql
-RUN service posgresql enable
-RUN Service posgresql start
+RUN service postgresql enable
+RUN Service postgresql start
 # Install pips
 COPY requirements*.txt ./
 RUN pip install -r requirements.txt && \
