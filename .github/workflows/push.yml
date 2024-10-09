@@ -26,7 +26,7 @@ jobs:
         id: meta
         run: |
           version="$(grep apache-superset Pipfile | grep -Eo '[0-9.]+')"
-          tags="amancevice/superset,amancevice/superset:$version"
+          tags="vioneta/vinsight,vioneta/vinsight:$version"
           echo "tags=$tags" >> "$GITHUB_OUTPUT"
       - uses: docker/build-push-action@v5
         with:
