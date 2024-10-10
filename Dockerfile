@@ -42,7 +42,7 @@ RUN groupadd supergroup && \
 COPY requirements*.txt ./
 RUN pip install -r requirements.txt && \
     pip install -r requirements-dev.txt
-
+RUN pip install gunicorn
 # Customize Superset with your configuration and logos
 COPY superset_config.py /etc/superset/
 COPY superset-logo-horiz.png /usr/local/lib/python3.11/site-packages/superset/static/assets/images/
