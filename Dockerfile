@@ -54,5 +54,9 @@ EXPOSE 8088
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8088/health || exit 1
 
-# Run Superset
-CMD ["gunicorn", "superset.app:create_app()"]
+# Start services and initialize the database
+CMD service postgresql start && \
+    service redis-server start && \
+    su - postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\"" && \
+    su - postgres -c "psql -c \"CREATE DATABASE vinsight;\"" && \
+    gunicorn superset.app:create_app()
