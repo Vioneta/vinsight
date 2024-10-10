@@ -49,14 +49,23 @@ COPY superset-logo-horiz.png /usr/local/lib/python3.11/site-packages/superset/st
 COPY favicon.png /usr/local/lib/python3.11/site-packages/superset/static/assets/images/
 ENV SUPERSET_CONFIG_PATH=/etc/superset/superset_config.py
 
+# Copy the wait script
+COPY wait-for-postgres.sh /usr/local/bin/
+
+# Make the script executable
+RUN chmod +x /usr/local/bin/wait-for-postgres.sh
+
 # Expose port and health check
 EXPOSE 8088
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8088/health || exit 1
 
 # Start services and initialize the database
-CMD service postgresql start && \
+CMD echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf && \
+    echo "host all  all    127.0.0.1/32  trust" >> /etc/postgresql/12/main/pg_hba.conf && \
+    service postgresql start && \
     service redis-server start && \
+    /usr/local/bin/wait-for-postgres.sh && \
     su - postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\"" && \
     su - postgres -c "psql -c \"CREATE DATABASE vinsight;\"" && \
     gunicorn superset.app:create_app()
