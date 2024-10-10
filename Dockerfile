@@ -48,10 +48,6 @@ COPY superset_config.py /etc/superset/
 COPY superset-logo-horiz.png /usr/local/lib/python3.11/site-packages/superset/static/assets/images/
 COPY favicon.png /usr/local/lib/python3.11/site-packages/superset/static/assets/images/
 ENV SUPERSET_CONFIG_PATH=/etc/superset/superset_config.py
-
-# Copy the wait script
-COPY wait-for-postgres.sh /usr/local/bin/
-
 # Make the script executable
 RUN chmod +x /usr/local/bin/wait-for-postgres.sh
 
