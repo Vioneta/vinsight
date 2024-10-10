@@ -7,5 +7,5 @@ service postgresql start
 service redis-server start
 /usr/local/bin/wait-for-postgres.sh
 su - postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\""
-su - postgres -c "psql -c \"CREATE DATABASE vinsight;\""
+# su - postgres -c "psql -c \"CREATE DATABASE vinsight;\""
 gunicorn superset.app:create_app()
