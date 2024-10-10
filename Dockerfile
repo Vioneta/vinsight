@@ -51,17 +51,11 @@ ENV SUPERSET_CONFIG_PATH=/etc/superset/superset_config.py
 # Make the script executable
 RUN chmod +x /usr/local/bin/wait-for-postgres.sh
 
+# Copy and make the entrypoint script executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
 # Expose port and health check
 EXPOSE 8088
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8088/health || exit 1
+# Use the entrypoint script as the CMD
+CMD ["/usr/local/bin/entrypoint.sh"]
 
-# Start services and initialize the database
-CMD echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf && \
-    echo "host all  all    127.0.0.1/32  trust" >> /etc/postgresql/12/main/pg_hba.conf && \
-    service postgresql start && \
-    service redis-server start && \
-    /usr/local/bin/wait-for-postgres.sh && \
-    su - postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\"" && \
-    su - postgres -c "psql -c \"CREATE DATABASE vinsight;\"" && \
-    gunicorn superset.app:create_app()
+
